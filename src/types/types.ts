@@ -3,7 +3,7 @@ export type appState = {
   cityData: any[];
   loading: boolean;
   showFahrenheit: boolean;
-  coords: any[];
+  coords: { lat: number; lon: number };
 };
 
 export type weatherContext = {
