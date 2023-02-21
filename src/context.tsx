@@ -6,7 +6,7 @@ import React, {
   createRef,
 } from 'react';
 import { initialState } from './constants/initialState';
-import { weatherContext } from './types/types';
+import { appState, weatherContext } from './types/types';
 import './index.css';
 
 const coordsUrl = `https://api.openweathermap.org/data/2.5/weather?`;
@@ -80,7 +80,17 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     fetchCity(`${cityURL}lat=${lat}&lon=${lon}&appid=${API_KEY}`);
   }, [state.coords.lat, state.coords.lon]);
 
-  console.log(state);
+  const chunkDays = (array: appState['cityData'], size: number) =>
+    array.reduce((acc, _, i) => {
+      if (i % size === 0) acc.push(array.slice(i, i + size));
+      return acc;
+    }, []);
+
+  const daysToDisplay = chunkDays(state.cityData, 9).map(
+    (item: any) => item[0]
+  );
+
+  console.log(daysToDisplay);
 
   return (
     <AppContext.Provider
