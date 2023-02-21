@@ -13,12 +13,12 @@ export type cityDataWeather = {
   description: string;
   icon: string;
   main: string;
-}[];
+};
 
 export type cityData = {
   dt_txt: string;
   main: cityDataMain;
-  weather: cityDataWeather;
+  weather: cityDataWeather[];
 };
 
 export type appState = {
