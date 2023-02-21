@@ -103,16 +103,17 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const days = daysToDisplay?.map((day: any) => day?.dt_txt);
   const dates = days?.map((day: any) => {
+    if (!day) return;
     const date = new Date(day);
-    const options = {
+    const formatter = new Intl.DateTimeFormat('en-US', {
       weekday: 'long',
-      month: '2-digit',
       year: '2-digit',
-    } as Intl.DateTimeFormatOptions;
+      month: '2-digit',
+      day: '2-digit',
+    });
 
-    return date.toLocaleString('en-US', options);
+    return formatter.format(date);
   });
-  console.log(dates);
 
   const descriptions = daysToDisplay
     ?.map((day: any) => day?.weather)
