@@ -6,9 +6,8 @@ import React, {
   createRef,
 } from 'react';
 import { initialState } from './constants/initialState';
-import { appState, weatherContext } from './types/types';
+import { appState, cityData, weatherContext } from './types/types';
 import './index.css';
-import { options } from 'yargs';
 
 const coordsUrl = `https://api.openweathermap.org/data/2.5/weather?`;
 const API_KEY = `20f7632ffc2c022654e4093c6947b4f4`;
@@ -83,15 +82,15 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, [state.coords.lat, state.coords.lon]);
 
   // get 5 day data from the entire API data
-  const chunkDays = (array: appState['cityData'], size: number) =>
+  const chunkDays = (array: cityData, size: number) =>
     array.reduce((acc, _, i) => {
       if (i % size === 0) acc.push(array.slice(i, i + size));
       return acc;
-    }, []);
+    }, [] as any);
 
   const daysToDisplay = chunkDays(state.cityData, 9).map(
-    (item: any) => item[0]
-  ) as any;
+    (item: cityData) => item[0]
+  ) as cityData;
 
   console.log(daysToDisplay);
 
@@ -100,6 +99,8 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // get data for daily display
+
+  console.log(state.cityData);
 
   const days = daysToDisplay?.map((day: any) => day?.dt_txt);
   const dates = days?.map((day: any) => {
