@@ -100,10 +100,6 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     (item: cityData[]) => item[0]
   ) as cityData[];
 
-  const getMainPropertyFrom = (property: any) => {
-    return property.slice(0, 1)[0];
-  };
-
   const dates = daysToDisplay
     .map((day: cityData) => day.dt_txt)
     .map((dateString: string) => {
@@ -141,6 +137,10 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   // get current day properties
+  const getMainPropertyFrom = (property: any) => {
+    return property.slice(0, 1)[0];
+  };
+
   const dateMAIN = dates.slice(0, 1);
   const tempMain = getMainPropertyFrom(tempFeelsLike);
   const tempMaxMain = getMainPropertyFrom(tempMax);
