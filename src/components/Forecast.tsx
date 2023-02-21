@@ -70,6 +70,9 @@ const Forecast = () => {
   const descriptionMAIN = descriptions
     .map((desc) => desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase())
     .slice(0, 1);
+  const windSpeedMain = daysToDisplay
+    .map((day) => (day.wind.speed * 18) / 5)
+    .slice(0, 1)[0];
 
   return (
     <div className="container-app">
@@ -81,7 +84,11 @@ const Forecast = () => {
             icon={iconMAIN}
             description={descriptions}
           />
-          <AditionalInfoCelsius />
+          <AditionalInfoCelsius
+            tempMax={tempMaxMain}
+            humidity={humidityMain}
+            windSpeed={windSpeedMain}
+          />
         </div>
       </section>
       <section className="section-forecast-days">
@@ -90,7 +97,7 @@ const Forecast = () => {
             return (
               <DayForecastItem
                 key={i}
-                i={i}
+                index={i}
                 dates={dates}
                 tempMax={tempMax}
                 humidity={humidity}

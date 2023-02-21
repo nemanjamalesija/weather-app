@@ -19,6 +19,7 @@ export type cityData = {
   dt_txt: string;
   main: cityDataMain;
   weather: cityDataWeather[];
+  wind: { speed: number };
 };
 
 export type appState = {

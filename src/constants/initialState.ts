@@ -19,6 +19,7 @@ export const initialState: appState = {
       dt_txt: '',
       main: cityDataMain,
       weather: cityDataWeather,
+      wind: { speed: 0 },
     },
   ],
   loading: true,
