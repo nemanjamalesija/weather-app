@@ -14,10 +14,12 @@ const API_KEY = `20f7632ffc2c022654e4093c6947b4f4`;
 const cityURL = `https://api.openweathermap.org/data/2.5/forecast?`;
 
 //////////////context
-const AppContext = React.createContext<weatherContext>({ state: initialState });
+const AppContext = React.createContext<weatherContext>({
+  state: initialState,
+});
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<appState>(initialState);
 
   // get coordinates
   useEffect(() => {
@@ -82,17 +84,17 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, [state.coords.lat, state.coords.lon]);
 
   // get 5 day data from the entire API data
-  const chunkDays = (array: cityData, size: number) =>
-    array.reduce((acc, _, i) => {
+  const chunkDays = (array: cityData[], size: number) => {
+    return array.reduce((acc, _, i) => {
       if (i % size === 0) acc.push(array.slice(i, i + size));
       return acc;
     }, [] as any);
+  };
 
+  console.log(state.cityData);
   const daysToDisplay = chunkDays(state.cityData, 9).map(
-    (item: cityData) => item[0]
-  ) as cityData;
-
-  console.log(daysToDisplay);
+    (item: cityData[]) => item[0]
+  ) as cityData[];
 
   const getMainPropertyFrom = (property: any) => {
     return property.slice(0, 1)[0];
@@ -102,19 +104,20 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   console.log(state.cityData);
 
-  const days = daysToDisplay?.map((day: any) => day?.dt_txt);
-  const dates = days?.map((day: any) => {
-    if (!day) return;
-    const date = new Date(day);
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      weekday: 'long',
-      year: '2-digit',
-      month: '2-digit',
-      day: '2-digit',
-    });
+  const dates = daysToDisplay
+    ?.map((day: cityData) => day?.dt_txt)
+    .map((dateString: string) => {
+      if (!dateString) return;
+      const date = new Date(dateString);
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        year: '2-digit',
+        month: '2-digit',
+        day: '2-digit',
+      });
 
-    return formatter.format(date);
-  });
+      return formatter.format(date);
+    });
 
   const descriptions = daysToDisplay
     ?.map((day: any) => day?.weather)

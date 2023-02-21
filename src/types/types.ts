@@ -19,11 +19,11 @@ export type cityData = {
   dt_txt: string;
   main: cityDataMain;
   weather: cityDataWeather;
-}[];
+};
 
 export type appState = {
   city: string;
-  cityData: cityData;
+  cityData: cityData[];
   loading: boolean;
   showFahrenheit: boolean;
   coords: { lat: number; lon: number };
