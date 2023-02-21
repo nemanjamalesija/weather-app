@@ -1,21 +1,38 @@
-import React from 'react';
+import { useGlobalContext } from '../context';
 
 type mainInfoProps = {
   date: string[];
   temp: number;
-  tempMax: number;
   icon: string;
   description: string[];
 };
 
-const MainInfoCelsius = ({
-  date,
-  temp,
-  tempMax,
-  icon,
-  description,
-}: mainInfoProps) => {
-  return <div>MainInfoCelsius</div>;
+const MainInfoCelsius = ({ date, temp, icon, description }: mainInfoProps) => {
+  const {
+    state: { city },
+  } = useGlobalContext();
+  return (
+    <div className="main-left-side">
+      <h2 className="main-description">{description}</h2>
+      <h5 className="heading-fifth">
+        {city.charAt(0).toUpperCase() + city.slice(1)}
+      </h5>
+      <p className="main-date">{date}</p>
+      <h2 className="temerature-main">{temp} &deg;C</h2>
+
+      <div className="image-div">
+        <img
+          className="main-icon"
+          src={`https://openweathermap.org/img/w/${icon}.png`}
+          alt="Current city"
+        />
+      </div>
+      <div className="search-div ">
+        add input here
+        <div> add handler here</div>
+      </div>
+    </div>
+  );
 };
 
 export default MainInfoCelsius;

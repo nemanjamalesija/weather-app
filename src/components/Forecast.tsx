@@ -78,7 +78,6 @@ const Forecast = () => {
           <MainInfoCelsius
             date={dateMAIN}
             temp={tempMain}
-            tempMax={tempMaxMain}
             icon={iconMAIN}
             description={descriptions}
           />
