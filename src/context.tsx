@@ -8,6 +8,7 @@ import React, {
 import { initialState } from './constants/initialState';
 import { appState, weatherContext } from './types/types';
 import './index.css';
+import { options } from 'yargs';
 
 const coordsUrl = `https://api.openweathermap.org/data/2.5/weather?`;
 const API_KEY = `20f7632ffc2c022654e4093c6947b4f4`;
@@ -65,6 +66,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
           if (!data) return;
 
           const { list } = data;
+          console.log(list);
           setState((prev) => {
             return { ...prev, loading: false, cityData: list };
           });
@@ -80,6 +82,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     fetchCity(`${cityURL}lat=${lat}&lon=${lon}&appid=${API_KEY}`);
   }, [state.coords.lat, state.coords.lon]);
 
+  // get 5 day data from the entire API data
   const chunkDays = (array: appState['cityData'], size: number) =>
     array.reduce((acc, _, i) => {
       if (i % size === 0) acc.push(array.slice(i, i + size));
@@ -88,9 +91,48 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const daysToDisplay = chunkDays(state.cityData, 9).map(
     (item: any) => item[0]
-  );
+  ) as any;
 
   console.log(daysToDisplay);
+
+  const getMainPropertyFrom = (property: any) => {
+    return property.slice(0, 1)[0];
+  };
+
+  // get data for daily display
+
+  const days = daysToDisplay?.map((day: any) => day?.dt_txt);
+  const dates = days?.map((day: any) => {
+    const date = new Date(day);
+    const options = {
+      weekday: 'long',
+      month: '2-digit',
+      year: '2-digit',
+    } as Intl.DateTimeFormatOptions;
+
+    return date.toLocaleString('en-US', options);
+  });
+  console.log(dates);
+
+  const descriptions = daysToDisplay
+    ?.map((day: any) => day?.weather)
+    .flat(1)
+    .map((item: any) => item?.description);
+
+  const iconsDays = daysToDisplay
+    .map((day: any) => day?.weather)
+    .flat(1)
+    .map((item: any) => item?.icon);
+
+  const humidity = daysToDisplay.map((day: any) => day?.main?.humidity);
+
+  const tempFeelsLike = daysToDisplay?.map((day: any) =>
+    Math.round(day?.main?.feels_like - 273.15)
+  );
+
+  const tempMax = daysToDisplay?.map((day: any) =>
+    Math.round(day?.main?.temp_max - 273.15)
+  );
 
   return (
     <AppContext.Provider
