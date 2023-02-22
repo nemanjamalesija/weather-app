@@ -5,8 +5,7 @@ import React, {
   useRef,
   createRef,
 } from 'react';
-import { initialState } from './constants/initialState';
-import { appState, weatherContext } from './types/types';
+
 import './index.css';
 
 const coordsUrl = `https://api.openweathermap.org/data/2.5/weather?`;
@@ -14,12 +13,12 @@ const API_KEY = `04d4d495e39f2311c4acd1148b6e2130`;
 const cityURL = `https://api.openweathermap.org/data/2.5/forecast?`;
 
 //////////////context
-const AppContext = React.createContext<weatherContext>({
+const AppContext = React.createContext({
   state: initialState,
 });
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, setState] = useState<appState>(initialState);
+  const [state, setState] = useState(initialState);
 
   // get coordinates
   useEffect(() => {
@@ -57,7 +56,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!lat || !lon) return;
 
-    const fetchCity = (url: string) => {
+    const fetchCity = (url) => {
       fetch(url)
         .then((response) => {
           if (!response.ok) return;
