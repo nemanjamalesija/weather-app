@@ -8,6 +8,7 @@ import DayForecastItem from './DayForecastItem';
 
 const Forecast = () => {
   const { state } = useGlobalContext();
+  console.log(state);
 
   // get 5 day data from the entire API data
   const chunkDays = (array: cityData[], size: number) => {
@@ -63,6 +64,7 @@ const Forecast = () => {
   };
 
   const dateMAIN = dates.slice(0, 1);
+  console.log(dateMAIN);
   const tempMain = getMainPropertyFrom(tempFeelsLike) as number;
   const tempMaxMain = getMainPropertyFrom(tempMax) as number;
   const humidityMain = getMainPropertyFrom(humidity) as number;
@@ -70,6 +72,9 @@ const Forecast = () => {
   const descriptionMAIN = descriptions
     .map((desc) => desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase())
     .slice(0, 1);
+
+  console.log(descriptionMAIN);
+
   const windSpeedMain = daysToDisplay
     .map((day) => (day.wind.speed * 18) / 5)
     .slice(0, 1)[0];
@@ -78,12 +83,7 @@ const Forecast = () => {
     <div className="container-app">
       <section className="section section-main">
         <div className="container container-main">
-          <MainInfoCelsius
-            date={dateMAIN}
-            temp={tempMain}
-            icon={iconMAIN}
-            description={descriptions}
-          />
+          <MainInfoCelsius date={dateMAIN} temp={tempMain} icon={iconMAIN} />
           <AditionalInfoCelsius
             tempMax={tempMaxMain}
             humidity={humidityMain}

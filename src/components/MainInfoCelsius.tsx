@@ -4,16 +4,15 @@ type mainInfoProps = {
   date: string[];
   temp: number;
   icon: string;
-  description: string[];
 };
 
-const MainInfoCelsius = ({ date, temp, icon, description }: mainInfoProps) => {
+const MainInfoCelsius = ({ date, temp, icon }: mainInfoProps) => {
   const {
     state: { city },
   } = useGlobalContext();
   return (
     <div className="main-left-side">
-      <h2 className="main-description">{description}</h2>
+      <h2 className="main-description">description</h2>
       <h5 className="heading-fifth">
         {city.charAt(0).toUpperCase() + city.slice(1)}
       </h5>

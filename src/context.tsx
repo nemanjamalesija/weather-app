@@ -6,16 +6,11 @@ import React, {
   createRef,
 } from 'react';
 import { initialState } from './constants/initialState';
-import {
-  appState,
-  cityData,
-  cityDataWeather,
-  weatherContext,
-} from './types/types';
+import { appState, weatherContext } from './types/types';
 import './index.css';
 
 const coordsUrl = `https://api.openweathermap.org/data/2.5/weather?`;
-const API_KEY = `20f7632ffc2c022654e4093c6947b4f4`;
+const API_KEY = `04d4d495e39f2311c4acd1148b6e2130`;
 const cityURL = `https://api.openweathermap.org/data/2.5/forecast?`;
 
 //////////////context
@@ -72,7 +67,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
           if (!data) return;
 
           const { list } = data;
-          console.log(list);
+
           setState((prev) => {
             return { ...prev, loading: false, cityData: list };
           });
@@ -86,7 +81,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchCity(`${cityURL}lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-  }, [state]);
+  }, [state.coords.lat, state.coords.lon]);
 
   return (
     <AppContext.Provider
